@@ -47,6 +47,7 @@ def textgenrnn_sample(preds, temperature, interactive=False, top_n=3):
 def textgenrnn_generate(model, vocab,
                         indices_char, temperature=0.5,
                         maxlen=40, meta_token='<s>',
+                        include_prefix=False,
                         word_level=False,
                         single_text=False,
                         max_gen_length=300,
@@ -76,7 +77,10 @@ def textgenrnn_generate(model, vocab,
         text = prefix_t if prefix else ['']
         max_gen_length += maxlen
     else:
-        text = [meta_token] + prefix_t if prefix else [meta_token]
+        if include_prefix:
+            text = [meta_token] + prefix_t if prefix else [meta_token]
+        else:
+            text = [meta_token]
 
     next_char = ''
 
